@@ -1,0 +1,57 @@
+# Installing  packages
+install.packages('tm')
+install.packages('twitteR')
+install.packages('wordcloud')
+install.packages('RColorBrewer')
+install.packages("e1071", dep = TRUE, type = "source")
+install.packages('class')
+install.packages("base64enc")
+
+library(twitteR)
+library(tm)
+library(wordcloud)
+library(RColorBrewer)
+
+ckey = "UztKTnKTX7cB76xUO473Sp2gX"
+skey = "NJYi9pgRe2j657yRVXgcUPubV9B22ykGr1R6mqGHCJHv5z38pr"
+token = 	"917337041167192064-nw7UFTKbfO3Tnd60rt4GNcKoNwuiSAR"
+sectoken = "FDQrlNlGvGKZpt68IbokTL2SblO0xM5cgq2Z4lFHxGYpc"
+
+#Connect to twitter
+setup_twitter_oauth(ckey,skey,token,sectoken)
+
+##Returning tweets
+soccer.tweets = searchTwitter('soccer',lang = 'en',n = 1000)
+
+##grabbing text data from tweets
+soccer.text  = sapply(soccer.tweets,function(x) x$getText())
+
+##Clean the text data
+soccer.text = iconv(soccer.text,'UTF-8','ASCII' ,sub="")
+
+##
+soccer.corpus = Corpus(VectorSource(soccer.text))
+
+##
+term.doc.matrix = TermDocumentMatrix(soccer.corpus,
+                                     control = list(removePunctuation = TRUE,
+                                                                  stopwords = c("soccer",
+                                                                  stopwords("english")),
+                                                                  removeNumbers=TRUE,
+                                                                  tolower=FALSE))
+                                                            
+#####Convert object into a matrix
+term.doc.matrix = as.matrix(term.doc.matrix)
+
+##Get word counts
+
+word.freq = sort(rowSums(term.doc.matrix),decreasing = TRUE)
+dm = data.frame(word= names(word.freq),freq = word.freq)
+
+##Create a word cloud
+wordcloud(dm$word,dm$freq,random.order = FALSE,colors = brewer.pal(8,'Dark2'))
+
+
+
+
+
