@@ -12,10 +12,10 @@ library(tm)
 library(wordcloud)
 library(RColorBrewer)
 
-ckey = "UztKTnKTX7cB76xUO473Sp2gX"
-skey = "NJYi9pgRe2j657yRVXgcUPubV9B22ykGr1R6mqGHCJHv5z38pr"
-token = 	"917337041167192064-nw7UFTKbfO3Tnd60rt4GNcKoNwuiSAR"
-sectoken = "FDQrlNlGvGKZpt68IbokTL2SblO0xM5cgq2Z4lFHxGYpc"
+ckey = "__"
+skey = "__"
+token = 	"__"
+sectoken = "__"
 
 #Connect to twitter
 setup_twitter_oauth(ckey,skey,token,sectoken)
